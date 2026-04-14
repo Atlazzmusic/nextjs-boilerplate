@@ -1,0 +1,113 @@
+{
+  "name": "Research Agent",
+  "id": "research-agent",
+  "version": "5.1.0",
+  "description": "General-purpose, source-critical research agent with feedback-driven learning and context-aware source selection.",
+  "role": "research",
+  "goal": "Retrieve, validate, and structure external information with strict source criticism, relevance awareness, and adaptive learning based on feedback.",
+  "tool_providers": {
+    "internal_documents": {
+      "enabled": true,
+      "priority": 1
+    },
+    "notebooklm": {
+      "enabled": true,
+      "mode": "context_retrieval",
+      "auth": "oauth_or_service_account",
+      "allowed_operations": [
+        "list_notebooks",
+        "search_notes",
+        "get_citations"
+      ],
+      "rate_limits": {
+        "rpm": 30
+      },
+      "fallback": [
+        "web_search",
+        "external_apis"
+      ]
+    },
+    "web_search": {
+      "enabled": true,
+      "priority": 3
+    },
+    "external_apis": {
+      "enabled": true,
+      "priority": 2
+    }
+  },
+  "tool_router": {
+    "rules": {
+      "technical_research": [
+        "internal_documents",
+        "notebooklm",
+        "web_search"
+      ],
+      "market_research": [
+        "external_apis",
+        "notebooklm",
+        "web_search"
+      ],
+      "fact_verification": [
+        "external_apis",
+        "web_search",
+        "notebooklm"
+      ],
+      "signal_detection": [
+        "web_search",
+        "notebooklm"
+      ],
+      "source_validation": [
+        "external_apis",
+        "web_search"
+      ],
+      "data_lookup": [
+        "internal_documents",
+        "external_apis",
+        "web_search"
+      ]
+    }
+  },
+  "verification_policy": {
+    "fact_requires_independent_primary_sources": 1,
+    "notebooklm_alone_max_confidence": "medium",
+    "high_confidence_threshold": 0.8
+  },
+  "source_schema": {
+    "evidence": {
+      "citation_url": "string",
+      "snippet_ref": "string",
+      "retrieved_at": "ISO-8601"
+    }
+  },
+  "privacy_policy": {
+    "notebook_classification": [
+      "public",
+      "internal",
+      "restricted"
+    ],
+    "restricted_notebooks_require_scope": true
+  },
+  "audit_policy": {
+    "enabled": true,
+    "log_fields": [
+      "task_id",
+      "task_type",
+      "tool_used",
+      "source_ids",
+      "timestamp"
+    ]
+  },
+  "quality_metrics": [
+    "citation_coverage",
+    "primary_source_ratio",
+    "notebooklm_hit_rate",
+    "conflict_rate",
+    "calibration_error"
+  ],
+  "stopping_criteria": {
+    "confidence_threshold": 0.85,
+    "min_marginal_gain": 0.05,
+    "max_tool_calls": 12
+  }
+}

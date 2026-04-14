@@ -34,3 +34,34 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Research Agent (v5.1) artifacts
+
+This repository now includes implementation artifacts for the Research Agent plan:
+
+- Config: `config/research-agent.v5.1.json`
+- Tool routing logic: `lib/research-agent/tool-router.ts`
+- Verification logic for findings/sources: `lib/research-agent/verification.ts`
+- Shared types: `lib/research-agent/types.ts`
+
+These files implement NotebookLM as a contextual tool provider with fallback, verification gating for facts, quality metrics, and stopping criteria.
+
+## Hvordan se appen lokalt
+
+1. Installer avhengigheter:
+   ```bash
+   npm install
+   ```
+2. Start utviklingsserver:
+   ```bash
+   npm run dev
+   ```
+3. Åpne i nettleser:
+   - `http://localhost:3000`
+
+Tips:
+- Hvis port 3000 er opptatt kan du bruke:
+  ```bash
+  npm run dev -- -p 3001
+  ```
+  og åpne `http://localhost:3001`.
